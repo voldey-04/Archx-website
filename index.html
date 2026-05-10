@@ -1162,9 +1162,9 @@ section::before { transition: opacity .6s ease; }
       <div class="cat-card reveal from-bottom" data-cat="Living Room" role="listitem"
            aria-label="View Living Room interior design projects" tabindex="0">
         <span class="cat-index" aria-hidden="true">01</span>
-        <img src="/_vercel/image?url=%2Fimages%2FLiving%2Fliving%20(1).png&w=640&q=80"
+        <img src="images/Living/living (1).png"
              alt="Luxury living room interior design by Arch X Studio, Bengaluru"
-             loading="lazy" decoding="async" width="640" height="360">
+             loading="lazy" decoding="async" width="600" height="360">
         <div class="cat-info">
           <div class="cat-info-text">
             <h3>Living Room Interiors</h3>
@@ -1178,9 +1178,9 @@ section::before { transition: opacity .6s ease; }
       <div class="cat-card reveal from-bottom delay-1" data-cat="Kitchen" role="listitem"
            aria-label="View Kitchen interior design projects" tabindex="0">
         <span class="cat-index" aria-hidden="true">02</span>
-        <img src="/_vercel/image?url=%2Fimages%2FKitchen%2Fkitchen%20(1).png&w=640&q=80"
+        <img src="images/Kitchen/kitchen (1).png"
              alt="Premium modular kitchen interior design Bengaluru — Arch X Studio"
-             loading="lazy" decoding="async" width="640" height="360">
+             loading="lazy" decoding="async" width="600" height="360">
         <div class="cat-info">
           <div class="cat-info-text">
             <h3>Kitchen Interiors</h3>
@@ -1194,9 +1194,9 @@ section::before { transition: opacity .6s ease; }
       <div class="cat-card reveal from-bottom delay-2" data-cat="Bedroom" role="listitem"
            aria-label="View Bedroom interior design projects" tabindex="0">
         <span class="cat-index" aria-hidden="true">03</span>
-        <img src="/_vercel/image?url=%2Fimages%2FBedroom%2Fbedroom%20(1).png&w=640&q=80"
+        <img src="images/Bedroom/bedroom (1).png"
              alt="Luxury bedroom interior design with custom wardrobe — Arch X Studio Bengaluru"
-             loading="lazy" decoding="async" width="640" height="360">
+             loading="lazy" decoding="async" width="600" height="360">
         <div class="cat-info">
           <div class="cat-info-text">
             <h3>Bedroom Interiors</h3>
@@ -1210,9 +1210,9 @@ section::before { transition: opacity .6s ease; }
       <div class="cat-card reveal from-bottom delay-3" data-cat="Dining" role="listitem"
            aria-label="View Dining interior design projects" tabindex="0">
         <span class="cat-index" aria-hidden="true">04</span>
-        <img src="/_vercel/image?url=%2Fimages%2FDining%2Fdining%20(1).png&w=640&q=80"
+        <img src="images/Dining/dining (1).png"
              alt="Elegant dining room interior design Bengaluru — Arch X Studio"
-             loading="lazy" decoding="async" width="640" height="360">
+             loading="lazy" decoding="async" width="600" height="360">
         <div class="cat-info">
           <div class="cat-info-text">
             <h3>Dining Interiors</h3>
@@ -1226,9 +1226,9 @@ section::before { transition: opacity .6s ease; }
       <div class="cat-card reveal from-bottom delay-4" data-cat="Bathroom" role="listitem"
            aria-label="View Bathroom interior design projects" tabindex="0">
         <span class="cat-index" aria-hidden="true">05</span>
-        <img src="/_vercel/image?url=%2Fimages%2FToilet%2Ftoilet%20(1).png&w=640&q=80"
+        <img src="images/Toilet/toilet (1).png"
              alt="Modern luxury bathroom interior design with premium fittings — Arch X Studio Bengaluru"
-             loading="lazy" decoding="async" width="640" height="360">
+             loading="lazy" decoding="async" width="600" height="360">
         <div class="cat-info">
           <div class="cat-info-text">
             <h3>Bathroom Interiors</h3>
@@ -1242,9 +1242,9 @@ section::before { transition: opacity .6s ease; }
       <div class="cat-card reveal from-bottom delay-5" data-cat="Balcony" role="listitem"
            aria-label="View Balcony interior design projects" tabindex="0">
         <span class="cat-index" aria-hidden="true">06</span>
-        <img src="/_vercel/image?url=%2Fimages%2FBalcony%2Fbalcony%20(1).jpg&w=640&q=80"
+        <img src="images/Balcony/balcony (1).jpg"
              alt="Premium balcony and outdoor terrace design Bengaluru — Arch X Studio"
-             loading="lazy" decoding="async" width="640" height="360">
+             loading="lazy" decoding="async" width="600" height="360">
         <div class="cat-info">
           <div class="cat-info-text">
             <h3>Balcony Interiors</h3>
@@ -1496,16 +1496,6 @@ document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
 /* ═══════════════════════════════════════════
    CATEGORY IMAGE DATA
 ═══════════════════════════════════════════ */
-/* ── Vercel image optimizer helper ──
-   Serves WebP/AVIF automatically, resizes to target width,
-   quality 80. Original PNGs/JPGs are never sent to the browser. */
-function vImg(path, w) {
-  return '/_vercel/image?url=' + encodeURIComponent('/' + path) + '&w=' + w + '&q=80';
-}
-
-/* Gallery card width displayed on screen ≈ 320px, lightbox ≈ 960px */
-const CARD_W = 640;   /* 2× for retina card */
-const LB_W   = 1280;  /* 2× for retina lightbox */
 
 const catData = {
   'Living Room': [
@@ -1640,7 +1630,7 @@ function buildTrack(list){
 
     /* Only assign src immediately for first 5 cards (visible viewport).
        The rest get a data-src and are revealed by the scroll observer. */
-    const optimizedSrc = vImg(item.img, CARD_W);
+    const optimizedSrc = item.img;
     if (i < 5) {
       img.src = optimizedSrc;
       img.onload = () => { img.classList.add('loaded'); card.classList.remove('gp-card-skeleton'); };
@@ -1767,7 +1757,7 @@ trackWrap.addEventListener('wheel', e => {
 function openLightbox(idx){
   lbIdx=idx;
   const item=currentList[lbIdx];
-  gpLbImg.src=vImg(item.img, LB_W); gpLbImg.alt=item.title;
+  gpLbImg.src=item.img; gpLbImg.alt=item.title;
   gpLbCap.textContent=item.title;
   gpLb.classList.add('open');
 }
@@ -1777,7 +1767,7 @@ function lbNav(dir){
   const item=currentList[lbIdx];
   gpLbImg.style.opacity='0';
   setTimeout(()=>{
-    gpLbImg.src=vImg(item.img, LB_W); gpLbImg.alt=item.title;
+    gpLbImg.src=item.img; gpLbImg.alt=item.title;
     gpLbCap.textContent=item.title;
     gpLbImg.style.opacity='1';
   },200);
