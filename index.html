@@ -61,10 +61,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<!-- Preload critical above-the-fold font weights -->
+<!-- Preload LCP hero poster image -->
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&q=85" fetchpriority="high">
+<!-- Non-blocking Google Fonts via media swap trick -->
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
-<!-- Font Awesome loaded with display=swap equivalent via media trick to avoid render-blocking -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap"></noscript>
+<!-- Font Awesome — non-blocking -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
@@ -529,7 +532,6 @@ ul{list-style:none;}
     url('https://images.unsplash.com/photo-1536895058696-a69b1c7ba34f?w=1800&q=80');
   background-size:cover;
   background-position:center;
-  background-attachment:fixed;
 }
 .footer-top::before{
   content:'';position:absolute;inset:0;
@@ -578,7 +580,7 @@ ul{list-style:none;}
     radial-gradient(ellipse at 20% 50%, rgba(201,169,110,.04) 0%, transparent 60%),
     radial-gradient(ellipse at 80% 20%, rgba(201,169,110,.03) 0%, transparent 55%),
     url('https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1800&q=80');
-  background-size:cover;background-position:center;background-attachment:fixed;position:relative;
+  background-size:cover;background-position:center;position:relative;
 }
 #about::before{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(4,4,4,.97) 0%,rgba(8,8,8,.96) 50%,rgba(6,6,6,.97) 100%);z-index:0;pointer-events:none;}
 #about>.container{position:relative;z-index:1;}
@@ -587,7 +589,7 @@ ul{list-style:none;}
   background-image:
     radial-gradient(ellipse at 75% 60%, rgba(201,169,110,.05) 0%, transparent 55%),
     url('https://images.unsplash.com/photo-1618219908412-a29a1bb7b86e?w=1800&q=80');
-  background-size:cover;background-position:center top;background-attachment:fixed;position:relative;
+  background-size:cover;background-position:center top;position:relative;
 }
 #services::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(6,6,6,.98) 0%,rgba(10,10,10,.97) 100%);z-index:0;pointer-events:none;}
 #services>.container{position:relative;z-index:1;}
@@ -606,7 +608,7 @@ ul{list-style:none;}
 #contact{
   background-image:
     url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1800&q=85');
-  background-size:cover;background-position:center top;background-attachment:fixed;position:relative;
+  background-size:cover;background-position:center top;position:relative;
 }
 /* Subtle left-side dark gradient so left text is always readable,
    right side stays slightly brighter to show the image */
@@ -638,10 +640,13 @@ ul{list-style:none;}
   border-color:rgba(201,169,110,.3) !important;
 }
 
-/* ── Performance: containment & will-change ── */
+/* ── content-visibility for off-screen sections (big paint win) ── */
+#services, #portfolio, .stats-section, .testi-section, .cta-section, #contact, footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 600px;
+}
 .cat-card{ contain:layout style; }
 .hero-video video{ will-change:transform; }
-.about-img-wrap img{ will-change:transform,filter; }
 .svc-card{ contain:layout style; }
 
 /* ── Preloader fade: GPU-composited ── */
@@ -872,7 +877,7 @@ section::before { transition: opacity .6s ease; }
   height:100%;
   align-items:stretch;
   width:max-content;
-  will-change:transform;
+  will-change:auto;
   transition:transform .05s linear;
 }
 
@@ -889,7 +894,7 @@ section::before { transition: opacity .6s ease; }
     box-shadow .55s cubic-bezier(0.22,1,0.36,1),
     filter .45s ease;
   box-shadow:0 8px 32px rgba(0,0,0,.55);
-  will-change:transform,filter;
+  will-change:auto;
 }
 /* Dim non-hovered siblings */
 .gp-track:hover .gp-card:not(:hover){
@@ -1041,7 +1046,7 @@ section::before { transition: opacity .6s ease; }
   <div class="hero-video">
     <!-- Autoplay muted video for ambient background; poster serves as LCP image -->
     <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1800&q=85"
-      aria-hidden="true" title="Arch X Interior Studio showcase video">
+      aria-hidden="true" title="Arch X Interior Studio showcase video" preload="none">
       <source src="hero-video.mp4" type="video/mp4">
     </video>
   </div>
@@ -1653,6 +1658,7 @@ function momentum(){
 trackWrap.addEventListener('mousedown', e => {
   isDragging=true; startX=e.clientX-dragX; lastX=e.clientX; velX=0;
   trackWrap.classList.add('dragging');
+  gpTrack.style.willChange='transform';
   cancelAnimationFrame(rafId);
 });
 window.addEventListener('mousemove', e => {
@@ -1666,6 +1672,7 @@ window.addEventListener('mouseup', () => {
   isDragging=false;
   trackWrap.classList.remove('dragging');
   momentum();
+  setTimeout(()=>{ gpTrack.style.willChange='auto'; }, 500);
 });
 
 /* Touch */
